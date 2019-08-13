@@ -10,6 +10,36 @@ const bcrypt = require('bcryptjs');
 
 const app = express();
 
+// variable for users and events
+const userData = userId => {
+    return userModel.findById(userId)
+        .then(UserData => {
+            return {
+                ...UserData._doc,
+                _id: UserData.id,
+                createdEvents: eventData.bind(this, UserData._doc.createdEvent)
+            };
+        })
+        .catch(err => {
+            throw err;
+        });
+}
+const eventData = eventsId => {
+    return eventModel.find({ _id: { $in: eventsId } })
+        .then(EventsData => {
+            return EventsData.map(EventData => {
+                return {
+                    ...EventData._doc,
+                    _id: EventData.id,
+                    creator: userData.bind(this, EventData.creator)
+                };
+            });
+        })
+        .catch(err => {
+            throw err;
+        });
+}
+
 // Use Middleware
 app.use(bodyParser.json());
 
@@ -22,12 +52,14 @@ app.use('/myapi', graphqlHttp({
            description: String!
            price: Float!
            date: String!
+           creator:User!
        }
        type User{
            _id:ID!
            username: String!
            email:String!
            password:String!
+           createdEvents: [Event!]
        }
        input InputUser{
            username:String!
@@ -57,11 +89,16 @@ app.use('/myapi', graphqlHttp({
         events: () => {
             return eventModel.find().then((MyEvents) => {
                 return MyEvents.map(MyEvent => {
-                    return { ...MyEvent._doc, _id: MyEvent.id }
+                    return {
+                        ...MyEvent._doc,
+                        _id: MyEvent.id,
+                        creator: userData.bind(this, MyEvent._doc.creator)
+                    };
                 })
-            }).catch(err => {
-                throw err
             })
+                .catch(err => {
+                    throw err
+                })
         },
         createEvent: (args) => {
             const EventModel = new eventModel({
@@ -69,14 +106,14 @@ app.use('/myapi', graphqlHttp({
                 description: args.inputNewEvent.description,
                 price: +args.inputNewEvent.price,
                 date: new Date(args.inputNewEvent.date),
-                creator: "5d5237f4b8ece01cf446fe2c"
+                creator: "5d5237e2b8ece01cf446fe2b"
             });
             let createdEvent;
             return EventModel
                 .save()
                 .then((result) => {
                     createdEvent = { ...result._doc, _id: result._doc._id.toString() };
-                    return userModel.findById("5d5237f4b8ece01cf446fe2c")
+                    return userModel.findById("5d5237e2b8ece01cf446fe2b")
                 })
                 .then(user => {
                     if (!user) {
