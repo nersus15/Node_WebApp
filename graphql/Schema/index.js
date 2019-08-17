@@ -1,7 +1,7 @@
 // import packages and moduls
 const { buildSchema } = require('graphql');
 
-// build and export schema as module
+// build and export GraphQl schema as module
 module.exports =
     buildSchema(`
         type Booking{
