@@ -17,7 +17,6 @@ app.use('/myapi', graphqlHttp({
     graphiql: true,
 }))
 // Connect to MongoDB Using Mongoose Driver
-
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-hehyb.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`, { useNewUrlParser: true })
     .then(() => {
         // Setting Listenig Server and connect to server

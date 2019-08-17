@@ -2,7 +2,7 @@
 const bcrypt = require('bcryptjs');
 const eventModel = require('../../models/event');
 const userModel = require('../../models/user');
-
+const bookingModel = require('../../models/booking');
 
 // variable for users and events
 const userData = async userId => {
@@ -35,7 +35,20 @@ const eventsData = async eventsId => {
     }
 }
 
-// export modul
+const eventData = async eventId => {
+    try {
+        const event = await eventModel.findById(eventId);
+        return {
+            ...event._doc,
+            _id: event.id,
+            creator: userData.bind(this, event.creator)
+        }
+    } catch (err) {
+        throw err
+    }
+}
+
+// make action graphQl and export modul
 module.exports = {
     events: async () => {
         try {
@@ -47,6 +60,37 @@ module.exports = {
                     date: new Date(MyEvent._doc.date).toISOString(),
                     creator: userData.bind(this, MyEvent._doc.creator)
                 };
+            })
+        } catch (err) {
+            throw err
+        }
+    },
+    users: async () => {
+        try {
+            const MyUsers = await userModel.find();
+            return MyUsers.map(MyUser => {
+                return {
+                    ...MyUser._doc,
+                    _id: MyUser.id,
+                    createdEvents: eventsData.bind(this, MyUser._doc.createdEvent)
+                }
+            })
+        } catch (err) {
+            throw err
+        }
+    },
+    bookings: async () => {
+        try {
+            const BookingsData = await bookingModel.find();
+            return BookingsData.map(BookingData => {
+                return {
+                    ...BookingData._doc,
+                    _id: BookingData.id,
+                    user: userData.bind(this, BookingData._doc.UserId),
+                    event: eventData.bind(this, BookingData._doc.EventId),
+                    createdAt: new Date(BookingData._doc.createdAt).toISOString(),
+                    updatedAt: new Date(BookingData._doc.updatedAt).toISOString(),
+                }
             })
         } catch (err) {
             throw err
@@ -92,7 +136,37 @@ module.exports = {
         } catch (err) {
             throw err
         }
+    },
+    bookEvent: async args => {
+        const Event = await eventModel.findOne({ _id: args.eventId });
+        const booking = new bookingModel({
+            UserId: '5d53792c2a065b47cc14609c',
+            EventId: Event
+        });
+        const result = await booking.save();
+        return {
+            ...result._doc,
+            _id: result.id,
+            user: userData.bind(this, result._doc.UserId),
+            event: eventData.bind(this, result._doc.EventId),
+            createdAt: new Date(result._doc.createdAt).toISOString(),
+            updatedAt: new Date(result._doc.updatedAt).toISOString(),
+        }
+    },
+    cancelBooking: async args => {
+        try {
+            const bookingData = await bookingModel.findById(args.bookingId).populate("EventId")
 
+            const EventId = {
+                ...bookingData.EventId._doc,
+                _id: bookingData.EventId.id,
+                creator: userData.bind(this, bookingData.EventId._doc.creator)
+            };
+            await bookingModel.deleteOne({ _id: args.bookingId });
+            return EventId;
+        } catch (err) {
+            throw err
+        }
     }
 
 }
