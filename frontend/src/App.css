@@ -1,33 +1,74 @@
-.App {
-  text-align: center;
+.Navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 3.5rem;
+    padding: 0 1rem;
+    align-items: center;
+    flex: 1;
+    background: darkcyan;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.Navbar-item{
+    font-size: 23px;
+    margin: 25px 8px;
+    text-decoration: none;
+    color: white;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.Navbar-item:hover,
+.Navbar-item:active,
+a.active{  
+    color: rgb(253, 231, 133);
 }
-
-.App-link {
-  color: #61dafb;
+.Navbar-brand{
+    margin-left: 20px;
+    margin-right: 25px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.brand-title{
+    color: white;
+    font-size: 25px;
+}
+.main-content{
+    margin: 5rem 2.5rem;
+}
+.btn{
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    font: inherit;
+    border-radius: 3px;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+}
+.btn-primary{
+    background: rgb(22, 90, 236);
+}
+form{
+    position: absolute;
+    top: 0;
+    width: 15rem;
+    max-width: 60%;
+    margin: 5rem auto;
+}
+.form-control label,
+.form-control input{
+    width: 100%;
+    margin: 10px auto;
+    display: block;
+}
+small{
+    color: rgb(141, 137, 137);
+    margin-bottom: 10px;
+}
+.form-action, small{
+    display: block;
+    margin: 5px;
+}
+.form-control input{
+    height: 25px;
+    border: 1px outset blue;
+    box-shadow: 0 0 2px black;
 }
