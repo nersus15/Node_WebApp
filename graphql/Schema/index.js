@@ -26,6 +26,11 @@ module.exports =
             password:String!
             createdEvents: [Event!]
         }
+        type AuthData{
+            userId:ID!
+            token:String!
+            tokenExp:Int!
+        }
         input InputUser{
             username:String!
             email:String!
@@ -42,6 +47,7 @@ module.exports =
             events: [Event!]!
             users:[User!]!
             bookings:[Booking!]!
+            login(email:String!, password:String!):AuthData!
         }
         type defaultMutation{
             createEvent(inputNewEvent: InputEvent!): Event

@@ -5,7 +5,10 @@ const { Bookings, Events } = require('./mergeResolver');
 
 // make action graphQl and export as modul
 module.exports = {
-    bookings: async () => {
+    bookings: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error("You don't have access ");
+        }
         try {
             const BookingsData = await bookingModel.find();
             return BookingsData.map(BookingData => {
@@ -15,16 +18,22 @@ module.exports = {
             throw err
         }
     },
-    bookEvent: async args => {
+    bookEvent: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error("You don't have access ");
+        }
         const Event = await eventModel.findOne({ _id: args.eventId });
         const booking = new bookingModel({
-            UserId: '5d53792c2a065b47cc14609c',
+            UserId: req.userId,
             EventId: Event
         });
         const result = await booking.save();
         return Bookings(result);
     },
-    cancelBooking: async args => {
+    cancelBooking: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error("You don't have access ");
+        }
         try {
             const bookingData = await bookingModel.findById(args.bookingId).populate("EventId")
 

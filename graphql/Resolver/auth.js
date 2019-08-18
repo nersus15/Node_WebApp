@@ -1,7 +1,7 @@
 // import packgaes and moduls
 const bcrypt = require('bcryptjs');
 const userModel = require('../../models/user');
-
+const jwt = require('jsonwebtoken');
 
 // make action graphQl and export as modul
 module.exports = {
@@ -36,5 +36,23 @@ module.exports = {
         } catch (err) {
             throw err
         }
+    },
+    login: async ({ email, password }) => {
+        const userData = await userModel.findOne({ email: email });
+        if (!userData) {
+            throw new Error("Email Doesn't Register");
+        }
+        const isEqual = await bcrypt.compare(password, userData.password);
+        if (!isEqual) {
+            throw new Error("Password is incorrect!");
+        }
+        const token = jwt.sign(
+            { userId: userData.id, username: userData.username, email: userData.email },
+            '102408',
+            { expiresIn: '1h' }
+        );
+        return {
+            userId: userData.id, token: token, tokenExp: 1
+        }
     }
-}
+};

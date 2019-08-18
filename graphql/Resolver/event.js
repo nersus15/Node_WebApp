@@ -1,5 +1,6 @@
 // import packages and modules
 const eventModel = require('../../models/event');
+const userModel = require('../../models/user');
 const { Events } = require('./mergeResolver');
 
 
@@ -15,19 +16,22 @@ module.exports = {
             throw err
         }
     },
-    createEvent: async (args) => {
+    createEvent: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error("You don't have access");
+        }
         const EventModel = new eventModel({
             title: args.inputNewEvent.title,
             description: args.inputNewEvent.description,
             price: +args.inputNewEvent.price,
             date: new Date(args.inputNewEvent.date),
-            creator: "5d53792c2a065b47cc14609c"
+            creator: req.userId
         });
         try {
             let createdEvent;
             const result = await EventModel.save()
             createdEvent = Events(result)
-            const user = await userModel.findById("5d53792c2a065b47cc14609c")
+            const user = await userModel.findById(req.userId)
             if (!user) {
                 throw new Error("User not Found");
             }

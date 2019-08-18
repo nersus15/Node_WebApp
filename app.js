@@ -1,4 +1,4 @@
-// Import Packages and moduls
+// Import Packages, function and moduls or middleware
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
@@ -6,11 +6,13 @@ const mongoose = require('mongoose');
 const app = express();
 const GraphQlSchema = require('./graphql/Schema/index');
 const GraphQlResolver = require('./graphql/Resolver/index');
-
+const isAuth = require('./middleware/auth');
 
 
 // Use Middleware
 app.use(bodyParser.json());
+app.use(isAuth)
+
 
 // Make app Route
 app.use('/myapi', graphqlHttp({
