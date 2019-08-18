@@ -15,6 +15,7 @@
     font-size: 23px;
     margin: 25px 8px;
     text-decoration: none;
+    background: transparent;
     color: white;
 }
 .Navbar-item:hover,
@@ -35,6 +36,7 @@ a.active{
 }
 .btn{
     cursor: pointer;
+    margin-left: 1rem;
     text-decoration: none;
     outline: none;
     font: inherit;
@@ -46,6 +48,9 @@ a.active{
 .btn-primary{
     background: rgb(22, 90, 236);
 }
+.btn-danger{
+    background: rgb(224, 29, 22);
+}
 form{
     position: absolute;
     top: 0;
@@ -53,11 +58,13 @@ form{
     max-width: 60%;
     margin: 5rem auto;
 }
-.form-control label,
-.form-control input{
+.form-control input,
+.form-control textarea{
     width: 100%;
     margin: 10px auto;
     display: block;
+    border: 1px outset blue;
+    box-shadow: 0 0 2px black;
 }
 small{
     color: rgb(141, 137, 137);
@@ -69,6 +76,87 @@ small{
 }
 .form-control input{
     height: 25px;
-    border: 1px outset blue;
-    box-shadow: 0 0 2px black;
+}
+.event-controls{
+    border: 1px solid blue;
+    text-align: center;
+    width: 30rem;
+    max-width: 80%;
+    padding: 1rem;
+    margin: 2rem auto;
+}
+.modal{
+    width: 50%;
+    background: white;
+    box-shadow: 0 2px 8px black;
+    position: fixed;
+    top: 10vh;
+    left: 25%;
+}
+.modal-header{
+    padding: 1rem;
+    background: rgb(128, 23, 226);
+    color: white;
+}
+.modal-header h1{ 
+    margin: 0;
+    font-size: 1.25rem;
+}
+.modal-content{
+    padding: 11rem 1rem;
+}
+.modal-actions{
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+@media(min-width:768px){
+    .modal{
+        width: 25rem;
+        left: calc((100% - 25rem) / 2);
+    }
+}
+.backdrop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.75);
+}
+.events-list{
+    display: flex;
+    padding: 1rem; 
+}
+.card{
+    padding: 0 1rem;
+    width: 350px;
+    margin: 0 1rem;
+    background:white;
+    box-shadow: 0 0 5px rgb(59, 59, 59);
+    border: 1px solid rgb(99, 99, 99);
+}
+.card-header{
+    width: 100%;
+    padding: 0 1rem;
+    margin: 0;
+    height: 4rem;
+}
+.creator{
+    color: rgb(155, 155, 155);
+}
+.events-descriptions{
+    color: rgb(139, 139, 139);
+    font-size: 20px;
+}
+.event-creator{
+   margin: 2rem 0;
+   padding: 0;
+   font-size: 15px;
+}
+.events-price{
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(247, 179, 53);
 }

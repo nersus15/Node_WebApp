@@ -1,5 +1,7 @@
 // import packages
 import React, { Component, Fragment } from 'react';
+import AuthContext from '../Context/auth-context';
+
 
 class LoginPage extends Component {
     constructor(props) {
@@ -7,6 +9,13 @@ class LoginPage extends Component {
         this.emailEl = React.createRef();
         this.passwordEl = React.createRef();
     }
+    // membuat variabel static context untuk mengakses data dari AuthContext
+    static contextType = AuthContext;
+
+
+
+
+    // Handler/ Logic untuk Login
     loginHandler = (event) => {
         event.preventDefault();
         const email = this.emailEl.current.value;
@@ -41,7 +50,13 @@ class LoginPage extends Component {
                 return res.json();
             })
             .then(result => {
-                console.log(result)
+                if (result.data.login.token) {
+                    this.context.login(
+                        result.data.login.token,
+                        result.data.login.userId,
+                        result.data.login.tokenExp,
+                    );
+                }
             })
             .catch(err => {
                 console.log(err)

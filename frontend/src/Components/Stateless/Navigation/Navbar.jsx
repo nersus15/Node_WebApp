@@ -2,17 +2,28 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+// import Context
+import AuthContext from '../../../Context/auth-context';
 
-const Navbar = () => {
-    return (
-        <div className="Navbar">
-            <div className="Navbar-brand">
-                <p className="brand-title">My Website</p>
-            </div>
-            <NavLink className="Navbar-item" to="/login">Login</NavLink>
-            <NavLink className="Navbar-item" to="/events">Events</NavLink>
-            <NavLink className="Navbar-item" to="/bookings">Bookings</NavLink>
-        </div>
-    );
-}
+const Navbar = (props) => (
+    <AuthContext.Consumer>
+        {(context) => {
+            return (
+                <div className="Navbar">
+                    <div className="Navbar-brand">
+                        <p className="brand-title">My Website</p>
+                    </div>
+                    {!context.token && <NavLink className="Navbar-item" to="/login">Login</NavLink>}
+                    <NavLink className="Navbar-item" to="/events">Events</NavLink>
+                    {context.token && (
+                        <React.Fragment>
+                            <NavLink className="Navbar-item" to="/bookings">Bookings</NavLink>
+                            <button onClick={context.logout} className="btn Navbar-item" >Logout</button>
+                        </React.Fragment>
+                    )}
+                </div>
+            );
+        }}
+    </AuthContext.Consumer>
+)
 export default Navbar
