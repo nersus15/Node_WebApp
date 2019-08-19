@@ -10,8 +10,8 @@ import AuthContext from './Context/auth-context';
 import LoginPage from "./pages/Login";
 import BookingsPage from "./pages/Bookings";
 import EventsPage from "./pages/Events";
-import Navbar from './Components/Stateless/Navigation/Navbar';
 import SignUp from './pages/Sign-Up';
+import Navbar from './Components/Navigation/Navbar';
 
 
 

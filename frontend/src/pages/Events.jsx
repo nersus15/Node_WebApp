@@ -2,12 +2,13 @@
 import React, { Component, Fragment } from 'react';
 
 // import Components
-import Modal from '../Components/StateFull/modal/Modal';
-import Backdrop from '../Components/StateFull/backdrop/BackDrop';
+import Modal from '../Components/modal/Modal';
+import Backdrop from '../Components/backdrop/BackDrop';
 
 
 // import context
 import AuthContext from '../Context/auth-context';
+import EventList from '../Components/event list/EventList';
 
 class EventsPage extends Component {
     constructor(props) {
@@ -146,26 +147,6 @@ class EventsPage extends Component {
     }
 
     render() {
-        const eventList = this.state.events.map(event => {
-            return (
-                <div key={event._id} className="card events">
-                    <div className='card-header'>
-                        <h1 className='events-title'>{event.title}</h1>
-                        <small className="events-date">{event.date}</small>
-                    </div>
-                    <hr />
-                    <div className="card-body">
-                        <p className='events-descriptions'>{event.description}</p>
-                        <p className='events-price'>Rp.{event.price}</p>
-                        <div className="event-creator">
-                            <p className='creator'>Creator:</p>
-                            <p className='username'>Username: {event.creator.username}</p>
-                            <p className='email'>Email: {event.creator.email}</p>
-                        </div>
-                    </div>
-                </div>
-            );
-        })
         return (
             <Fragment>
                 {this.state.creating && (
@@ -198,7 +179,6 @@ class EventsPage extends Component {
                                 </form>
                             }
                         >
-
                         </Modal>
                     </div>
                 )}
@@ -208,9 +188,7 @@ class EventsPage extends Component {
                         <button onClick={this.createEventHandler} className='btn btn-primary' type="button"> Create Event</button>
                     </div>
                 )}
-                <section className='events-list'>
-                    {eventList}
-                </section>
+                <EventList events={this.state.events} />
             </Fragment>
         );
     }
