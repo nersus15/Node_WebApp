@@ -63,6 +63,15 @@ const Events = EventData => {
 
 }
 
+// function for user
+const Users = UserData => {
+    return {
+        ...UserData._doc,
+        _id: UserData.id,
+        createdEvents: () => eventLoader.loadMany(UserData._doc.createdEvent)
+    }
+
+}
 
 // function for booking
 const Bookings = BookingData => {
@@ -79,3 +88,4 @@ const Bookings = BookingData => {
 // exports a function
 exports.Bookings = Bookings;
 exports.Events = Events;
+exports.Users = Users;

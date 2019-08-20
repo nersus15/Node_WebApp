@@ -54,6 +54,22 @@ a.active{
 .btn-info{
     background: rgb(8, 182, 235);
 }
+.btn-warning{
+  background: #facf0e;
+}
+table{
+  width: 80%;
+}
+div hr{
+  width: 30%;
+  margin: 0;
+  padding: 0;
+}
+.table-data-action{
+  padding: 0;
+  margin: 0 ;
+  display: flex
+}
 form{
     position: absolute;
     top: 0;
@@ -164,6 +180,7 @@ small{
 }
 .user .username{
     color: white;
+    text-decoration: none;
 }
 /* pure css loader */
 .lds-roller {

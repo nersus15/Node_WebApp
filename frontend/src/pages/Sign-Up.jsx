@@ -1,5 +1,6 @@
 // import packages
 import React, { Component, Fragment } from 'react';
+import Roler from '../Components/Loader/roler';
 
 class SignUp extends Component {
     constructor(props) {
@@ -8,7 +9,11 @@ class SignUp extends Component {
         this.emailEl = React.createRef();
         this.passwordEl = React.createRef();
     }
+    state = {
+        isCreating: false,
+    };
     signupHandler = (event) => {
+        this.setState({ isCreating: true });
         event.preventDefault();
         const username = this.usernameEl.current.value;
         const email = this.emailEl.current.value;
@@ -43,9 +48,11 @@ class SignUp extends Component {
                 return res.json();
             })
             .then(result => {
-                console.log(result)
+                this.setState({ isCreating: false });
+
             })
             .catch(err => {
+                this.setState({ isCreating: false });
                 throw err;
             });
         // ...
@@ -53,24 +60,27 @@ class SignUp extends Component {
     render() {
         return (
             <Fragment>
-                <form onSubmit={this.signupHandler} className='form'>
-                    <div className="form-control">
-                        <label className='form-label' htmlFor="username">Username</label>
-                        <input ref={this.usernameEl} className='form-input' placeholder='your username' type="text" name="username" id="username" />
-                    </div>
-                    <div className="form-control">
-                        <label className='form-label' htmlFor="email">E-mail</label>
-                        <input ref={this.emailEl} className='form-input' placeholder='your email' type="email" name="email" id="email" />
-                    </div>
-                    <div className="form-control">
-                        <label className='form-label' htmlFor="password">Password</label>
-                        <input ref={this.passwordEl} className='form-input' placeholder='your password' type="password" name="password" id="password" />
-                    </div>
-                    <div className="form-action">
-                        <small>already have account.? click <a href="/login">here </a>to login</small>
-                        <button className='btn btn-primary' type="submit">Sign Up</button>
-                    </div>
-                </form>
+                {this.state.isCreating ? (<Roler />) : (
+                    <form onSubmit={this.signupHandler} className='form'>
+                        <div className="form-control">
+                            <label className='form-label' htmlFor="username">Username</label>
+                            <input ref={this.usernameEl} className='form-input' placeholder='your username' type="text" name="username" id="username" />
+                        </div>
+                        <div className="form-control">
+                            <label className='form-label' htmlFor="email">E-mail</label>
+                            <input ref={this.emailEl} className='form-input' placeholder='your email' type="email" name="email" id="email" />
+                        </div>
+                        <div className="form-control">
+                            <label className='form-label' htmlFor="password">Password</label>
+                            <input ref={this.passwordEl} className='form-input' placeholder='your password' type="password" name="password" id="password" />
+                        </div>
+                        <div className="form-action">
+                            <small>already have account.? click <a href="/login">here </a>to login</small>
+                            <button className='btn btn-primary' type="submit">Sign Up</button>
+                        </div>
+                    </form>
+                )
+                }
             </Fragment>
         );
     }

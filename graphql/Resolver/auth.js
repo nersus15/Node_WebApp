@@ -2,23 +2,10 @@
 const bcrypt = require('bcryptjs');
 const userModel = require('../../models/user');
 const jwt = require('jsonwebtoken');
+const { Users } = require('./mergeResolver');
 
 // make action graphQl and export as modul
 module.exports = {
-    users: async () => {
-        try {
-            const MyUsers = await userModel.find();
-            return MyUsers.map(MyUser => {
-                return {
-                    ...MyUser._doc,
-                    _id: MyUser.id,
-                    createdEvents: eventsData.bind(this, MyUser._doc.createdEvent)
-                }
-            })
-        } catch (err) {
-            throw err
-        }
-    },
     createUSer: async (args) => {
         try {
             const User = await userModel.findOne({ email: args.inputNewUSer.email })

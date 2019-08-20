@@ -1,9 +1,8 @@
 // import packages
-import React, { Component, Fragment } from 'react';
-
+import React, { Component, Fragment, } from 'react';
 // import Components
 import Roler from '../Components/Loader/roler';
-import BookingList from '../Components/booking list/BookingList';
+import BookingList from '../Components/booking/booking list/BookingList';
 
 
 // import context
@@ -14,7 +13,10 @@ class BookingsPage extends Component {
     state = {
         bookings: [],
         isLoading: false,
+        outputType: 'list'
     }
+
+    // Custom Function
     loadBooking = () => {
         this.setState({ isLoading: true });
         const GraphQlRequest = {
@@ -68,6 +70,9 @@ class BookingsPage extends Component {
             });
 
     }
+    // ...
+
+
     deleteBookingHandler = (bookingId) => {
         this.setState({ isLoading: true });
         const GraphQlRequest = {
@@ -107,18 +112,47 @@ class BookingsPage extends Component {
             });
 
     }
+    // ...
+
+    changeOutputHandler = (outputType) => {
+        if (outputType === "list") {
+            this.setState({ outputType: 'list' })
+        } else {
+            this.setState({ outputType: 'chart' })
+        }
+    }
+    // ...
+
+    // Default Function
     componentDidMount() {
         this.loadBooking();
     }
 
     render() {
+        let content = <Roler />;
+        if (!this.state.isLoading) {
+            content = (
+                <Fragment>
+                    <div>
+                        <button onClick={this.changeOutputHandler.bind(this, 'list')}>List</button>
+                        <button onClick={this.changeOutputHandler.bind(this, 'chart')}>Chart</button>
+                    </div>
+                    <div>
+                        {
+                            this.state.outputType === 'list' ?
+                                <BookingList onDelete={this.deleteBookingHandler} myBookings={this.state.bookings} /> : (
+                                    <div>
+                                        <p>this is Chart View</p>
+                                    </div>
+                                )
+                        }
+                    </div>
+                </Fragment>
+            );
+        }
         return (
             <Fragment>
-                {this.state.isLoading ? (
-                    <Roler />
-                ) : (
-                        <BookingList onDelete={this.deleteBookingHandler} myBookings={this.state.bookings} />
-                    )}
+                {content}
             </Fragment>
         );
     }

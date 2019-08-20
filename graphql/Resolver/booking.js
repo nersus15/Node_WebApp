@@ -44,5 +44,4 @@ module.exports = {
             throw err
         }
     }
-
 };

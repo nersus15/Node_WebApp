@@ -20,7 +20,7 @@ const Navbar = (props) => (
                             <NavLink className="Navbar-item" to="/bookings">Bookings</NavLink>
                             <button onClick={context.logout} className="btn logout Navbar-item" >Logout</button>
                             <div className="user">
-                                <p className="username">{context.username}</p>
+                                <NavLink to="/profile" className="username">{context.username}</NavLink>
                             </div>
                         </React.Fragment>
                     )}
