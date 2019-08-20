@@ -71,21 +71,29 @@ class Profile extends Component {
         this.loadEvents();
     }
     render() {
-        const list = this.state.events.map(event => {
-            return (
-                <tr key={event._id} className='table-data'>
-                    <td>{event._id}</td>
-                    <td>{event.title}</td>
-                    <td>{event.description}</td>
-                    <td>Rp.{event.price}</td>
-                    <td>{new Date(parseInt(event.date)).toLocaleDateString()}</td>
-                    <td className='table-data-action'>
-                        <button className="btn btn-danger">Delete</button>
-                        <button className="btn btn-warning">Update</button>
-                    </td>
-                </tr>
-            );
-        })
+        const list = null
+        if (this.state.events === null) {
+            const list = () => {
+                return null
+            }
+        } else {
+            const list = this.state.events.map(event => {
+                return (
+                    <tr key={event._id} className='table-data'>
+                        <td>{event._id}</td>
+                        <td>{event.title}</td>
+                        <td>{event.description}</td>
+                        <td>Rp.{event.price}</td>
+                        <td>{new Date(parseInt(event.date)).toLocaleDateString()}</td>
+                        <td className='table-data-action'>
+                            <button className="btn btn-danger">Delete</button>
+                            <button className="btn btn-warning">Update</button>
+                        </td>
+                    </tr>
+                );
+            })
+        }
+
         return (
             <Fragment>
                 <div className='user-info'>

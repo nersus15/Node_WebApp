@@ -73,7 +73,7 @@ class LoginPage extends Component {
                     </div>
                     <div className="form-control">
                         <label className='form-label' htmlFor="password">Password</label>
-                        <input ref={this.passwordEl} className='form-input' placeholder='your password' type="password" name="password" id="password" />
+                        <input ref={this.passwordEl} className='form-input' current-password placeholder='your password' type="password" name="password" id="password" />
                     </div>
                     <div className="form-action">
                         <small>Don't have account.? click <a href="/sign-up">here </a>to sign up</small>

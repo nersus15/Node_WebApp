@@ -3,6 +3,8 @@ import React, { Component, Fragment, } from 'react';
 // import Components
 import Roler from '../Components/Loader/roler';
 import BookingList from '../Components/booking/booking list/BookingList';
+import BookingChart from '../Components/booking/booking chart/BookingChart';
+import OutputControl from '../Components/Button/OutputControl';
 
 
 // import context
@@ -133,18 +135,12 @@ class BookingsPage extends Component {
         if (!this.state.isLoading) {
             content = (
                 <Fragment>
-                    <div>
-                        <button onClick={this.changeOutputHandler.bind(this, 'list')}>List</button>
-                        <button onClick={this.changeOutputHandler.bind(this, 'chart')}>Chart</button>
-                    </div>
+                    <OutputControl buttonText_1='List' buttonText_2='Chart' changeOutputHandler={this.changeOutputHandler} outputType={this.state.outputType} />
                     <div>
                         {
                             this.state.outputType === 'list' ?
-                                <BookingList onDelete={this.deleteBookingHandler} myBookings={this.state.bookings} /> : (
-                                    <div>
-                                        <p>this is Chart View</p>
-                                    </div>
-                                )
+                                <BookingList onDelete={this.deleteBookingHandler} myBookings={this.state.bookings} /> :
+                                <BookingChart myBookings={this.state.bookings} />
                         }
                     </div>
                 </Fragment>

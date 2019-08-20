@@ -57,6 +57,27 @@ a.active{
 .btn-warning{
   background: #facf0e;
 }
+.output-type button{
+  cursor: pointer;
+  font: inherit;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  color: black;
+  padding: 0.5rem 5rem;
+  font-weight: bold;
+}
+button.active{
+  border-bottom-color:  rgb(109, 16, 196);
+
+}
+button.active:focus{
+  outline: none;
+}
+.output-type{
+  text-align: center;
+  padding: 0.5rem;
+}
 table{
   width: 80%;
 }
