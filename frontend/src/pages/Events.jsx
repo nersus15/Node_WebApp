@@ -51,14 +51,16 @@ class EventsPage extends Component {
             return;
         }
         // memasukkan inputan ke mongoDB melalui GraphQl
+        // Metode inputan yang digunakan disini berbeda dengan metode di booking, login, dan signup
+        // metode seperti ini digunakan juga di cancelBooking
         const GraphQlRequest = {
             query: `               
-                    mutation{
+                    mutation createEvent($title:String!, $description:String!, $price:Float!, $date:String!){
                         createEvent(inputNewEvent:{
-                            title:"${title}"
-                            description:"${description}"
-                            price:${price}
-                            date:"${date}"
+                            title:$title
+                            description:$description
+                            price:$price
+                            date:$date"
                         }){
                             _id
                             title
@@ -67,7 +69,13 @@ class EventsPage extends Component {
                             date                            
                         }
                     }                      
-            `
+            `,
+            variables: {
+                title: title,
+                description: description,
+                price: price,
+                date: date,
+            }
         };
 
         fetch('http://localhost:3001/myapi', {
