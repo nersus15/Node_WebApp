@@ -18,7 +18,10 @@ const Navbar = (props) => (
                     {context.token && (
                         <React.Fragment>
                             <NavLink className="Navbar-item" to="/bookings">Bookings</NavLink>
-                            <button onClick={context.logout} className="btn Navbar-item" >Logout</button>
+                            <button onClick={context.logout} className="btn logout Navbar-item" >Logout</button>
+                            <div className="user">
+                                <p className="username">{context.username}</p>
+                            </div>
                         </React.Fragment>
                     )}
                 </div>

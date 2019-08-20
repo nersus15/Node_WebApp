@@ -10,7 +10,7 @@ module.exports = {
             throw new Error("You don't have access ");
         }
         try {
-            const BookingsData = await bookingModel.find();
+            const BookingsData = await bookingModel.find({ UserId: req.userId });
             return BookingsData.map(BookingData => {
                 return Bookings(BookingData)
             })

@@ -51,6 +51,9 @@ a.active{
 .btn-danger{
     background: rgb(224, 29, 22);
 }
+.btn-info{
+    background: rgb(8, 182, 235);
+}
 form{
     position: absolute;
     top: 0;
@@ -66,6 +69,9 @@ form{
     border: 1px outset blue;
     box-shadow: 0 0 2px black;
 }
+.logout{
+    font-size: 25px;
+}
 small{
     color: rgb(141, 137, 137);
     margin-bottom: 10px;
@@ -80,10 +86,10 @@ small{
 .event-controls{
     border: 1px solid blue;
     text-align: center;
-    width: 30rem;
+    width: 50%;
     max-width: 80%;
     padding: 1rem;
-    margin: 2rem auto;
+    margin: 2rem 25%;
 }
 .modal{
     width: 50%;
@@ -103,12 +109,12 @@ small{
     font-size: 1.25rem;
 }
 .modal-content{
-    padding: 11rem 1rem;
+    padding: 1rem;
 }
 .modal-actions{
     display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
+    justify-content: flex-end;    
+    padding: 1rem
 }
 
 @media(min-width:768px){
@@ -126,37 +132,160 @@ small{
     background: rgba(0, 0, 0, 0.75);
 }
 .events-list{
-    display: flex;
-    padding: 1rem; 
+    margin:0 25%;
 }
 .card{
-    padding: 0 1rem;
-    width: 350px;
-    margin: 0 1rem;
+    list-style: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background:white;
     box-shadow: 0 0 5px rgb(59, 59, 59);
-    border: 1px solid rgb(99, 99, 99);
+    border: 1px solid rgb(4, 29, 255);
 }
-.card-header{
-    width: 100%;
-    padding: 0 1rem;
+.event-title{
     margin: 0;
-    height: 4rem;
+    color: rgb(128, 23, 226);
+    font-size: 1.5rem;
 }
-.creator{
-    color: rgb(155, 155, 155);
+.event-price{
+    font-size: 1rem;
+    color: #7c7c7c;
 }
-.events-descriptions{
-    color: rgb(139, 139, 139);
-    font-size: 20px;
+.card p{
+    margin: 0 1rem;
 }
-.event-creator{
-   margin: 2rem 0;
-   padding: 0;
-   font-size: 15px;
+.user{
+    position: relative;
+    left:50%;
+    display: block;
 }
-.events-price{
-    font-weight: bold;
-    font-size: 20px;
-    color: rgb(247, 179, 53);
+.user .username{
+    color: white;
+}
+/* pure css loader */
+.lds-roller {
+    display: inline-block;
+    position: relative;
+    margin: 10rem 50%;
+    width: 64px;
+    height: 64px;
+  }
+  .lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 32px 32px;
+  }
+  .lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(109, 8, 204);
+    margin: -3px 0 0 -3px;
+  }
+  .lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+  }
+  .lds-roller div:nth-child(1):after {
+    top: 50px;
+    left: 50px;
+  }
+  .lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+  }
+  .lds-roller div:nth-child(2):after {
+    top: 54px;
+    left: 45px;
+  }
+  .lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+  }
+  .lds-roller div:nth-child(3):after {
+    top: 57px;
+    left: 39px;
+  }
+  .lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+  }
+  .lds-roller div:nth-child(4):after {
+    top: 58px;
+    left: 32px;
+  }
+  .lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+  }
+  .lds-roller div:nth-child(5):after {
+    top: 57px;
+    left: 25px;
+  }
+  .lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+  }
+  .lds-roller div:nth-child(6):after {
+    top: 54px;
+    left: 19px;
+  }
+  .lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+  }
+  .lds-roller div:nth-child(7):after {
+    top: 50px;
+    left: 14px;
+  }
+  .lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+  }
+  .lds-roller div:nth-child(8):after {
+    top: 45px;
+    left: 10px;
+  }
+  @keyframes lds-roller {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+/* ... */
+
+/* style for booking page and booking item */
+.card-booking{
+  list-style: none;
+  margin: 0 25%;
+  padding: 0;
+  width: 50%;
+  max-width: 80%;
+}
+.bookings-item{
+  margin: 0.5rem 0;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgb(59, 59, 59);
+  border: 1px solid rgb(4, 29, 255);
+}
+.booking-event{
+  display: block;
+  padding: 0;
+}
+.booking-event h1, h2{
+  margin: 1rem 0;
+}
+.booking-event h2{
+  color: #7c7c7c;
+  font-size: 1rem;
+}
+.event-creator p{
+  font-size: 1.5rem;
+  color: #7c7c7c;
+  margin: 0.5rem;
+}
+.bookings-data{
+  justify-content: space-between;
+  display: flex;
+  padding: 1rem;
 }

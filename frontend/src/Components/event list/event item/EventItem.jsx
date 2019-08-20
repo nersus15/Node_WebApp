@@ -1,22 +1,18 @@
 import React from 'react';
 const eventItem = (props) => {
     return (
-        <div key={props.eventId} className="card events">
-            <div className='card-header'>
-                <h1 className='events-title'>{props.title}</h1>
-                <small className="events-date">{props.date}</small>
+        <li key={props.eventId} className="card">
+            <div>
+                <h1 className='event-title'>{props.title}</h1>
+                <h2 className='event-price'>Rp.{props.price} - {new Date(props.date).toLocaleDateString()}</h2>
             </div>
-            <hr />
-            <div className="card-body">
-                <p className='events-descriptions'>{props.description}</p>
-                <p className='events-price'>Rp.{props.price}</p>
-                <div className="event-creator">
-                    <p className='creator'>Creator:</p>
-                    <p className='username'>Username: {props.username}</p>
-                    <p className='email'>Email: {props.email}</p>
-                </div>
+            <div>
+                {props.creatorId === props.userId ?
+                    (<p>Your the owner of this Event</p>) : (
+                        <button onClick={props.onDetil.bind(this, props.eventId)} className='btn btn-info'>View Detil</button>
+                    )}
             </div>
-        </div>
+        </li>
     );
 };
 export default eventItem; 

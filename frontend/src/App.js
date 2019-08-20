@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import './App.css';
 import AuthContext from './Context/auth-context';
-
+import jwt from 'jsonwebtoken';
 
 
 // import Pages and Components
@@ -18,7 +18,9 @@ import Navbar from './Components/Navigation/Navbar';
 class App extends Component {
   state = {
     token: null,
-    userId: null
+    userId: null,
+    username: null,
+    email: null,
   }
   // function to login and logout
   login = (token, userId, tokenExp) => {
@@ -26,6 +28,7 @@ class App extends Component {
       token: token,
       userId: userId,
     });
+    this.userInfo(token);
   };
   logout = () => {
     this.setState({
@@ -33,13 +36,25 @@ class App extends Component {
       userId: null
     });
   }
-
+  userInfo = (token) => {
+    let decodedToken = jwt.verify(token, '102408');
+    if (!decodedToken) {
+      return;
+    }
+    this.setState({
+      username: decodedToken.username,
+      email: decodedToken.email,
+      userId: decodedToken.userId
+    });
+  }
 
   render() {
     return (
       <Router>
         <AuthContext.Provider value={{
           token: this.state.token,
+          username: this.state.username,
+          email: this.state.email,
           userId: this.state.userId,
           login: this.login,
           logout: this.logout
@@ -63,7 +78,7 @@ class App extends Component {
             </Switch>
           </main>
         </AuthContext.Provider>
-      </Router>
+      </Router >
     );
   }
 }
