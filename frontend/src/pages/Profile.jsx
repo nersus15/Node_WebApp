@@ -78,7 +78,51 @@ class Profile extends Component {
                 }
             });
     }
+    deleteEventHandler = (eventId) => {
+        if (!this.context.token) {
+            this.setState({ isShowDetil: false })
+            return;
+        }
+        if (eventId.length === 0) {
+            this.setState({ isShowDetil: false })
+            return;
+        }
 
+        const GraphQlRequest = {
+            query: `               
+                mutation{
+                    deleteEvent(eventId:"${eventId}"){
+                        title                        
+                     }
+                }                      
+            `
+        };
+        fetch('http://localhost:3001/myapi', {
+            method: 'POST',
+            body: JSON.stringify(GraphQlRequest),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
+            }
+        })
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Request Failed');
+                }
+                return res.json();
+            })
+            .then(result => {
+                console.log(result)
+                this.loadEvents();
+                if (!isNull(this.state.events)) {
+                    this.setState({ isNull: false })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
+        this.setState({ isLoading: false })
+    }
 
     // Default Function
     componentDidMount() {
@@ -88,7 +132,6 @@ class Profile extends Component {
         }
     }
     render() {
-
         const list = this.state.events.map(event => {
             return (
                 <tr key={event._id} className='table-data'>
@@ -98,7 +141,7 @@ class Profile extends Component {
                     <td>Rp.{event.price}</td>
                     <td>{new Date(parseInt(event.date)).toLocaleDateString()}</td>
                     <td className='table-data-action'>
-                        <button className="btn btn-danger">Delete</button>
+                        <button onClick={this.deleteEventHandler.bind(this, event._id)} className="btn btn-danger">Delete</button>
                         <button className="btn btn-warning">Update</button>
                     </td>
                 </tr>
@@ -136,7 +179,6 @@ class Profile extends Component {
                                             <td> </td>
                                             <td> </td>
                                             <td> </td>
-
                                         </tr>
                                     )}
                                 </tbody>

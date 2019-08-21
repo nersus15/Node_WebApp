@@ -26,8 +26,8 @@ class EventsPage extends Component {
         isLoading: false,
         isShowDetil: false,
         selectedEvent: null,
+        isActive: true
     }
-    isActive = true;
 
     static contextType = AuthContext;
 
@@ -206,19 +206,20 @@ class EventsPage extends Component {
             })
             .then(result => {
                 const events = result.data.events;
-                if (this.isActive) {
+                if (this.state.isActive) {
                     this.setState({ events: events, isLoading: false })
                 }
             })
             .catch(err => {
                 console.log(err);
-                if (this.isActive) {
+                if (this.state.isActive) {
                     this.setState({ isLoading: false });
                 }
             });
     }
 
     showDetilHandler = (eventId) => {
+        this.loadMyBooking();
         this.setState(prevState => {
             const SelectedEvent = prevState.events.find(event => event._id === eventId);
             return { selectedEvent: SelectedEvent, isShowDetil: true };
@@ -226,7 +227,6 @@ class EventsPage extends Component {
 
     }
     loadMyBooking = () => {
-        this.setState({ isLoading: true });
         const GraphQlRequest = {
             query: `               
             query{
@@ -255,11 +255,10 @@ class EventsPage extends Component {
             })
             .then(result => {
                 const bookings = result.data.bookings;
-                this.setState({ myBookings: bookings, isLoading: false });
+                this.setState({ myBookings: bookings });
             })
             .catch(err => {
                 console.log(err);
-                this.setState({ isLoading: false });
             });
     }
     // ....
@@ -267,11 +266,10 @@ class EventsPage extends Component {
 
     // Default Function from React
     componentDidMount() {
-        this.loadMyBooking();
         this.loadEvents();
     }
     componentWillUnmount() {
-        this.isActive = false;
+        this.setState({ isActive: false })
     }
     render() {
         return (

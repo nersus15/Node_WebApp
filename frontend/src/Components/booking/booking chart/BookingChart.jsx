@@ -1,6 +1,6 @@
 // import packages dan moduls
 import React from 'react';
-import { Bar as BarChart } from 'react-chartjs';
+import { Bar } from 'react-chartjs';
 
 // global variable
 const Event_Category = {
@@ -34,7 +34,7 @@ const BookingChart = (props) => {
 
     }
     return (<div style={{ textAlign: 'center' }}>
-        <BarChart data={chartData} />
+        <Bar data={chartData} />
     </div>
 
     );

@@ -34,7 +34,7 @@ const eventsData = async eventsId => {
         eventsData.map(EventData => {
             return Events(EventData);
         });
-        return eventsData;
+        return eventsData
     } catch (err) {
         throw err;
     }

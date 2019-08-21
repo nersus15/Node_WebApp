@@ -36,7 +36,6 @@ module.exports = {
         }
         try {
             const bookingData = await bookingModel.findById(args.bookingId).populate("EventId")
-
             const EventId = Events(bookingData.EventId);
             await bookingModel.deleteOne({ _id: args.bookingId });
             return EventId;

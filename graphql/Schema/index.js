@@ -54,6 +54,7 @@ module.exports =
             createUSer(inputNewUSer: InputUser!): User
             bookEvent(eventId:ID!):Booking!
             cancelBooking(bookingId:ID!):Event!
+            deleteEvent(eventId:ID!):Event!
         }
         schema{
             query: defaultQuery,

@@ -41,5 +41,24 @@ module.exports = {
         } catch (err) {
             throw err;
         }
+    },
+    deleteEvent: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error("You don't have access ");
+        }
+        try {
+            const user = await userModel.findById(req.userId)
+            if (!user) {
+                throw new Error("User not Found");
+            }
+            const event = await eventModel.findOne({ _id: args.eventId })
+            let deletedEvent = await Events(event)
+            user.createdEvent.pull(args.eventId);
+            await user.save();
+            await eventModel.deleteOne({ _id: args.eventId });
+            return deletedEvent
+        } catch (err) {
+            throw err;
+        }
     }
 };
