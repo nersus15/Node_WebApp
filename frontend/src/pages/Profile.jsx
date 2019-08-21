@@ -5,6 +5,7 @@ import React, { Component, Fragment } from 'react';
 // import context
 import AuthContext from '../Context/auth-context';
 import Roler from '../Components/Loader/roler';
+import { isNull } from 'util';
 
 
 
@@ -13,8 +14,10 @@ class Profile extends Component {
     state = {
         creating: false,
         events: [],
+        userInfo: {},
         isLoading: false,
         isShowDetil: false,
+        isNull: true,
         selectedEvent: null,
     }
     isActive = true;
@@ -25,7 +28,10 @@ class Profile extends Component {
         const GraphQlRequest = {
             query: `               
                 query{
-                    users{                                 
+                    users{      
+                        _id
+                        username
+                        email                           
                         createdEvents{
                             _id
                             title
@@ -54,7 +60,15 @@ class Profile extends Component {
             .then(result => {
                 const events = result.data.users[0].createdEvents
                 if (this.isActive) {
-                    this.setState({ events: events, isLoading: false })
+                    this.setState({
+                        events: events,
+                        userInfo: {
+                            Id: result.data.users[0]._id,
+                            username: result.data.users[0].username,
+                            email: result.data.users[0].email,
+                        },
+                        isLoading: false
+                    });
                 }
             })
             .catch(err => {
@@ -69,39 +83,36 @@ class Profile extends Component {
     // Default Function
     componentDidMount() {
         this.loadEvents();
+        if (!isNull(this.state.events)) {
+            this.setState({ isNull: false })
+        }
     }
     render() {
-        const list = null
-        if (this.state.events === null) {
-            const list = () => {
-                return null
-            }
-        } else {
-            const list = this.state.events.map(event => {
-                return (
-                    <tr key={event._id} className='table-data'>
-                        <td>{event._id}</td>
-                        <td>{event.title}</td>
-                        <td>{event.description}</td>
-                        <td>Rp.{event.price}</td>
-                        <td>{new Date(parseInt(event.date)).toLocaleDateString()}</td>
-                        <td className='table-data-action'>
-                            <button className="btn btn-danger">Delete</button>
-                            <button className="btn btn-warning">Update</button>
-                        </td>
-                    </tr>
-                );
-            })
-        }
+
+        const list = this.state.events.map(event => {
+            return (
+                <tr key={event._id} className='table-data'>
+                    <td>{event._id}</td>
+                    <td>{event.title}</td>
+                    <td>{event.description}</td>
+                    <td>Rp.{event.price}</td>
+                    <td>{new Date(parseInt(event.date)).toLocaleDateString()}</td>
+                    <td className='table-data-action'>
+                        <button className="btn btn-danger">Delete</button>
+                        <button className="btn btn-warning">Update</button>
+                    </td>
+                </tr>
+            );
+        })
 
         return (
             <Fragment>
                 <div className='user-info'>
                     <h1>User Info</h1>
                     <hr />
-                    <p>User Id: </p>
-                    <p>Username:</p>
-                    <p>email: </p>
+                    <p>User Id: {this.state.userInfo.Id}</p>
+                    <p>Username: {this.state.userInfo.username}</p>
+                    <p>email: {this.state.userInfo.email}</p>
                 </div>
                 {this.state.isLoading ? (<Roler />) : (
                     <div className='user-createdEvents'>
@@ -118,7 +129,16 @@ class Profile extends Component {
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
-                                    {list}
+                                    {!this.state.isNull ? list : (
+                                        <tr key="123" className='table-data'>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

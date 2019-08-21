@@ -23,28 +23,28 @@ class BookingsPage extends Component {
         this.setState({ isLoading: true });
         const GraphQlRequest = {
             query: `               
-            query{
-                bookings {
-                  _id
-                  createdAt
-                  user {
-                    _id
-                    username
-                    email
-                  }
-                  event {
-                    _id
-                    title
-                    description
-                    price
-                    date
-                    creator{
+                query{
+                    bookings {
                         _id
-                        username
+                        createdAt
+                        user {
+                            _id
+                            username
+                            email
+                        }
+                        event {
+                            _id
+                            title
+                            description
+                            price
+                            date
+                            creator{
+                                _id
+                                username
+                            }
+                        }
                     }
-                  }
                 }
-              }
                            
             `
         };

@@ -21,14 +21,17 @@ class EventsPage extends Component {
     }
     state = {
         creating: false,
+        myBookings: [],
         events: [],
         isLoading: false,
         isShowDetil: false,
-        selectedEvent: null
+        selectedEvent: null,
     }
     isActive = true;
+
     static contextType = AuthContext;
 
+    // Custom Function
     createEventHandler = () => {
         this.setState({ creating: true })
     }
@@ -60,7 +63,7 @@ class EventsPage extends Component {
                             title:$title
                             description:$description
                             price:$price
-                            date:$date"
+                            date:$date
                         }){
                             _id
                             title
@@ -117,14 +120,22 @@ class EventsPage extends Component {
         // ...
     }
     modalBookHandler = () => {
+        let isExist = false;
+        const eventId = this.state.selectedEvent._id;
+        this.state.myBookings.forEach(booking => {
+            if (eventId === booking.event._id) {
+                isExist = true
+            }
+        });
         if (!this.context.token) {
             this.setState({ isShowDetil: false })
             return;
         }
-        const eventId = this.state.selectedEvent._id;
-        if (eventId.length === 0) {
+        if (eventId.length === 0 || isExist) {
+            this.setState({ isShowDetil: false })
             return;
         }
+
         const GraphQlRequest = {
             query: `               
                 mutation{
@@ -153,6 +164,7 @@ class EventsPage extends Component {
             })
             .then(result => {
                 this.setState({ isShowDetil: false })
+                isExist = false;
             })
             .catch(err => {
                 console.log(err)
@@ -213,8 +225,49 @@ class EventsPage extends Component {
         });
 
     }
+    loadMyBooking = () => {
+        this.setState({ isLoading: true });
+        const GraphQlRequest = {
+            query: `               
+            query{
+                bookings {
+                  event {
+                    _id                   
+                  }
+                }
+              }
+                           
+            `
+        };
+        fetch('http://localhost:3001/myapi', {
+            method: 'POST',
+            body: JSON.stringify(GraphQlRequest),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
+            }
+        })
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Request Failed');
+                }
+                return res.json();
+            })
+            .then(result => {
+                const bookings = result.data.bookings;
+                this.setState({ myBookings: bookings, isLoading: false });
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({ isLoading: false });
+            });
+    }
+    // ....
 
+
+    // Default Function from React
     componentDidMount() {
+        this.loadMyBooking();
         this.loadEvents();
     }
     componentWillUnmount() {
